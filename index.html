@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Functions in the Wild!</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Raleway:wght@900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fffdf5; --fg: #0b0b0b; --pillbg: #0b0b0b; --pillfg: #fffdf5;
+  --orange: #ffb844; --blue: #5da9db; --green: #2fb083;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #1b1a17; --fg: #fffdf5; --pillbg: #fffdf5; --pillfg: #0b0b0b; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #1b1a17; --fg: #fffdf5; --pillbg: #fffdf5; --pillfg: #0b0b0b; color-scheme: dark; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: "Open Sans", Arial, Helvetica, sans-serif; line-height: 1.6; }
+.display { font-family: Raleway, "Arial Black", Impact, sans-serif; font-weight: 900; text-transform: uppercase; line-height: 1.05; margin: 0; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+.pill { display: inline-block; background: var(--pillbg); color: var(--pillfg); border-radius: 999px; padding: 6px 18px; font-weight: 700; font-size: 0.85rem; text-decoration: none; }
+a.pill:hover { outline: 3px solid var(--fg); outline-offset: 2px; }
+
+/* hero */
+.hero { padding: 56px 0 48px; }
+.hero .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; }
+.hero h1 { font-size: clamp(2.6rem, 8vw, 4.6rem); }
+.hero p.lead { font-size: 1.35rem; margin: 16px 0 8px; }
+.hero p.meta { margin: 0 0 20px; opacity: 0.75; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.art svg { width: 100%; height: auto; display: block; }
+@media (max-width: 760px) { .hero .wrap { grid-template-columns: 1fr; } }
+
+/* section colour bands */
+.sec { background: var(--sbg); color: var(--fg); padding: 56px 0; }
+.o { --sbg: var(--orange); --fg: #0b0b0b; --pillbg: #0b0b0b; --pillfg: #fffdf5; }
+.b { --sbg: var(--blue);   --fg: #0b0b0b; --pillbg: #0b0b0b; --pillfg: #fffdf5; }
+.g { --sbg: var(--green);  --fg: #0b0b0b; --pillbg: #0b0b0b; --pillfg: #fffdf5; }
+.c { --sbg: var(--bg); }
+.sec h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); margin: 10px 0 4px; }
+.by { margin: 0 0 20px; font-weight: 600; }
+
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+@media (max-width: 640px) { .pair { grid-template-columns: 1fr; } }
+.frame { position: relative; aspect-ratio: 4 / 3; border: 3px solid #0b0b0b; border-radius: 18px; overflow: hidden; color: #0b0b0b;
+  background-color: #fffdf5;
+  background-image: linear-gradient(rgba(11,11,11,.13) 1px, transparent 1px), linear-gradient(90deg, rgba(11,11,11,.13) 1px, transparent 1px);
+  background-size: 24px 24px; }
+.frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.frame .pill { position: absolute; top: 12px; left: 12px; background: #0b0b0b; color: #fffdf5; z-index: 1; }
+.ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 16px; font-weight: 600; opacity: 0.7; }
+
+.eq { display: block; margin-top: 16px; background: #0b0b0b; color: #fffdf5; border-radius: 12px; padding: 14px 18px; font-family: "Courier New", monospace; font-size: 1.05rem; overflow-x: auto; white-space: pre; }
+.eq.empty { opacity: 0.7; font-style: italic; }
+.eqlabel { margin-top: 18px; }
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+@media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
+.card { background: #fffdf5; color: #0b0b0b; border: 3px solid #0b0b0b; border-radius: 18px; padding: 16px 20px; margin-top: 16px; }
+.row .card { margin-top: 0; }
+.card h3 { font-size: 0.95rem; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+.card p { margin: 0; white-space: pre-wrap; }
+.card .val { font-family: "Courier New", monospace; overflow-x: auto; white-space: pre; }
+.empty { opacity: 0.6; font-style: italic; }
+.spark { width: 18px; height: 18px; flex: none; }
+
+footer { background: #0b0b0b; color: #fffdf5; padding: 36px 0; }
+footer .wrap { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+footer p { margin: 0; }
+footer .pill { background: #fffdf5; color: #0b0b0b; }
+</style>
+</head>
+<body>
+
+<header class="hero c" id="top">
+  <div class="wrap">
+    <div>
+      <h1 class="display" id="siteTitle"></h1>
+      <p class="lead" id="siteCourse"></p>
+      <p class="meta" id="siteMembers"></p>
+      <nav class="chips" id="nav" aria-label="Functions"></nav>
+    </div>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="gp" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M20 0H0V20" fill="none" stroke="#0b0b0b" stroke-opacity=".13"/>
+          </pattern>
+        </defs>
+        <rect x="6" y="6" width="388" height="268" rx="22" fill="#fffdf5" stroke="#0b0b0b" stroke-width="4"/>
+        <rect x="6" y="6" width="388" height="268" rx="22" fill="url(#gp)"/>
+        <path d="M200 20V260M20 150H380" stroke="#0b0b0b" stroke-width="3"/>
+        <path d="M110 30Q200 330 290 30" fill="none" stroke="#e84b35" stroke-width="6" stroke-linecap="round"/>
+        <path d="M22 150C60 70 100 70 140 150S220 230 260 150S340 70 378 150" fill="none" stroke="#5da9db" stroke-width="6" stroke-linecap="round"/>
+        <path d="M22 240C150 236 250 220 330 40" fill="none" stroke="#2fb083" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="200" cy="150" r="7" fill="#0b0b0b"/>
+        <circle cx="140" cy="150" r="7" fill="#0b0b0b"/>
+        <circle cx="260" cy="150" r="7" fill="#0b0b0b"/>
+        <polygon points="310,230 360,230 335,190" fill="#ffb844" stroke="#0b0b0b" stroke-width="3"/>
+        <g fill="#0b0b0b" transform="translate(330 292)">
+          <circle cx="0" cy="-14" r="8"/><circle cx="0" cy="14" r="8"/><circle cx="-14" cy="0" r="8"/><circle cx="14" cy="0" r="8"/><rect x="-3" y="-14" width="6" height="28"/><rect x="-14" y="-3" width="28" height="6"/>
+        </g>
+        <path d="M30 296C50 276 60 316 80 296S110 276 120 300" fill="none" stroke="#0b0b0b" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div id="album"></div>
+
+<footer>
+  <div class="wrap">
+    <p>Photos taken in Sunway, Malaysia. Graphs made in Desmos.</p>
+    <a class="pill" href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   EDIT THIS PART ONLY. Fill in each field between the quotes.
+   Leave a field as "" and the page shows a placeholder.
+   Photo / graph: use the file name of your image, e.g. "photo1.jpg"
+   (put the images in the same folder as this file on GitHub Pages).
+   Use \n inside a text field to start a new line.
+   ============================================================ */
+const site = {
+  title: "Functions in the Wild!",
+  course: "Spotting advanced functions around Sunway, Malaysia",
+  tag: "MHF4U Advanced Functions: Culminating Task",
+  members: ""            // e.g. "Name 1, Name 2, Name 3"
+};
+
+const items = Array.from({ length: 9 }, (_, i) => ({
+  type: "",              // function type, e.g. "Reciprocal"
+  student: "",           // who took / modelled this one
+  photo: "",             // original photo
+  graph: "",             // Desmos overlay screenshot
+  equation: "",          // exact equation
+  domain: "",            // set-builder notation
+  range: "",
+  derivation: "",        // your algebraic derivation (2 key points)
+  transformation: "",    // Paragraph 1: transformation mapping and parameters
+  breakdown: ""          // Paragraph 2: domain/range bounds and where the model breaks down
+}));
+
+/* ===================== Do not edit below ===================== */
+const $ = (id) => document.getElementById(id);
+$("siteTitle").textContent = site.title;
+$("siteCourse").textContent = site.course;
+$("siteMembers").textContent = site.members ? "By " + site.members : "Group members: (add names)";
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function frame(src, label) {
+  const f = el("div", "frame");
+  f.appendChild(el("span", "pill", label));
+  const ph = el("div", "ph", label + " goes here");
+  if (src) {
+    const img = el("img");
+    img.src = src;
+    img.alt = label;
+    img.onerror = () => { img.remove(); ph.textContent = label + " not found: " + src; f.appendChild(ph); };
+    f.appendChild(img);
+  } else {
+    f.appendChild(ph);
+  }
+  return f;
+}
+
+const SPARK = '<svg class="spark" viewBox="0 0 20 20" aria-hidden="true"><g fill="#0b0b0b"><circle cx="10" cy="3" r="3"/><circle cx="10" cy="17" r="3"/><circle cx="3" cy="10" r="3"/><circle cx="17" cy="10" r="3"/><circle cx="10" cy="10" r="4"/></g></svg>';
+
+function card(parent, heading, value, cls) {
+  const c = el("div", "card");
+  const h = el("h3", "display");
+  h.insertAdjacentHTML("afterbegin", SPARK);
+  h.appendChild(document.createTextNode(heading));
+  c.appendChild(h);
+  c.appendChild(el("p", (cls || "") + (value ? "" : " empty"), value || "(to be added)"));
+  parent.appendChild(c);
+  return c;
+}
+
+const nav = $("nav");
+const album = $("album");
+const colours = ["o", "b", "g", "c"];
+
+items.forEach((it, i) => {
+  const n = i + 1;
+
+  const a = el("a", "pill", n + (it.type ? " " + it.type : ""));
+  a.href = "#f" + n;
+  nav.appendChild(a);
+
+  const s = el("section", "sec " + colours[i % 4]);
+  s.id = "f" + n;
+  const w = el("div", "wrap");
+  s.appendChild(w);
+
+  w.appendChild(el("span", "pill", "Function " + n));
+  w.appendChild(el("h2", "display", it.type || "Function type"));
+  if (it.student) w.appendChild(el("p", "by", "Modelled by " + it.student));
+
+  const pair = el("div", "pair");
+  pair.appendChild(frame(it.photo, "Original photo"));
+  pair.appendChild(frame(it.graph, "Desmos overlay"));
+  w.appendChild(pair);
+
+  w.appendChild(el("span", "pill eqlabel", "Equation"));
+  w.appendChild(el("code", it.equation ? "eq" : "eq empty", it.equation || "(to be added)"));
+
+  const row = el("div", "row");
+  card(row, "Domain", it.domain, "val");
+  card(row, "Range", it.range, "val");
+  w.appendChild(row);
+
+  card(w, "Algebraic derivation", it.derivation);
+  card(w, "Transformations and parameters", it.transformation);
+  card(w, "Domain, range and where the model breaks down", it.breakdown);
+
+  album.appendChild(s);
+});
+</script>
+</body>
+</html>
