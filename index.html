@@ -133,19 +133,17 @@ const site = {
   members: "Matthew, Jean, and Edward"
 };
 
-const items = Array.from({ length: 9 }, (_, i) => ({
-  type: "",              // function type, e.g. "Reciprocal"
-  student: "",           // who took / modelled this one
-  photo: "",             // original photo
-  graph: "",             // Desmos overlay screenshot
-  equation: "",          // exact equation
-  domain: "",            // set-builder notation
-  range: "",
-  derivation: "",        // your algebraic derivation (2 key points)
-  transformation: "",    // Paragraph 1: transformation mapping and parameters
-  breakdown: ""          // Paragraph 2: domain/range bounds and where the model breaks down
-}));
-
+const items = [
+  { type: "Linear", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" },
+  { type: "Quadratic", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" },
+  { type: "Sine", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" },
+  { type: "Exponential", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" },
+  { type: "Absolute value", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" },
+  { type: "Logarithmic", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" },
+  { type: "", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" },
+  { type: "", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" },
+  { type: "", student: "", photo: "", graph: "", equation: "", domain: "", range: "", derivation: "", transformation: "", breakdown: "" }
+];
 /* ===================== Do not edit below ===================== */
 const $ = (id) => document.getElementById(id);
 $("siteTitle").textContent = site.title;
